@@ -2,11 +2,14 @@
 import yfinance as yf
 import pandas as pd
 
-tickers = ["AMZN", "AAPL", "GOOGL", "MSFT", "TSLA"]
+import networkx as nx
+import matplotlib.pyplot as plt
+
+tickers = ["AMZN", "AAPL", "GOOGL", "MSFT", "TSLA", "META", "NVDA", "NFLX", "AMD"]
 print(tickers)
 
 market_data = yf.download(tickers, start="2026-08-01", end="2026-09-01")
-print(market_data)
+#print(market_data)
 
 closing_prices = market_data['Close']
 daily_returns = closing_prices.pct_change()
@@ -25,8 +28,14 @@ for i in range(len(correlation_matrix)):
         stock2 = correlation_matrix.columns[j]
         coorelation = correlation_matrix.iloc[i,j]
 
-        if abs(correlation) > threshold:
-            edges.append((stock1, stock2, correlation))
+        if abs(coorelation) > threshold:
+            edges.append((stock1, stock2, coorelation))
 
 print(edges)
 
+#Graph object
+G = nx.Graph()
+G.add_weighted_edges_from(edges)
+
+nx.draw(G, with_labels=True)
+plt.show()
