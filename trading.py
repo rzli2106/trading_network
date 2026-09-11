@@ -17,7 +17,7 @@ daily_returns = closing_prices.pct_change()
 
 #using pandas to calculate the correlation matrix
 correlation_matrix = daily_returns.corr()
-print(correlation_matrix)
+#print(correlation_matrix)
 
 threshold = 0.3
 edges = []
@@ -31,11 +31,19 @@ for i in range(len(correlation_matrix)):
         if abs(coorelation) > threshold:
             edges.append((stock1, stock2, coorelation))
 
-print(edges)
+#print(edges)
+
+edge_weights = []
+for stock1, stock2, corr in edges:
+    edge_weights.append(corr*5)
 
 #Graph object
 G = nx.Graph()
 G.add_weighted_edges_from(edges)
 
-nx.draw(G, with_labels=True)
+# Position nodes using a layout
+pos = nx.spring_layout(G, k=0.5)
+
+nx.draw(G, pos, with_labels=True, width=edge_weights, node_size=2000, font_size=10)
 plt.show()
+
