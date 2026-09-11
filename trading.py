@@ -26,10 +26,10 @@ for i in range(len(correlation_matrix)):
     for j in range(i):
         stock1 = correlation_matrix.columns[i]
         stock2 = correlation_matrix.columns[j]
-        coorelation = correlation_matrix.iloc[i,j]
+        correlation = correlation_matrix.iloc[i,j]
 
-        if abs(coorelation) > threshold:
-            edges.append((stock1, stock2, coorelation))
+        if abs(correlation) > threshold:
+            edges.append((stock1, stock2, correlation))
 
 #print(edges)
 
